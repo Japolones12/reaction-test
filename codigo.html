@@ -4,7 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jogo de Reação</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        #reaction-btn {
+            padding: 15px 30px;
+            font-size: 20px;
+            margin-top: 20px;
+        }
+
+        #message {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -13,6 +37,43 @@
         <button id="reaction-btn" onclick="nextLevel()">Clique Aqui!</button>
         <div id="message"></div>
     </div>
-    <script src="script.js"></script>
+    <script>
+        let level = 1;
+        let maxLevel = 10;
+        let timeouts = [2000, 1800, 1600, 1400, 1200, 1000, 800, 600, 400, 200];
+        let reactionTimeout;
+
+        function nextLevel() {
+            if (level > maxLevel) {
+                document.getElementById('message').innerText = "Parabéns! Você completou todos os níveis!";
+                return;
+            }
+
+            clearTimeout(reactionTimeout);
+            document.getElementById('message').innerText = '';
+            document.getElementById('level-info').innerText = `Nível: ${level}`;
+            document.getElementById('reaction-btn').disabled = true;
+
+            let randomTime = Math.floor(Math.random() * 3000) + 1000; // Entre 1 e 4 segundos
+            setTimeout(() => {
+                document.getElementById('reaction-btn').disabled = false;
+                reactionTimeout = setTimeout(() => {
+                    document.getElementById('message').innerText = "Você não conseguiu clicar a tempo! Tente novamente.";
+                    level = 1;
+                    document.getElementById('level-info').innerText = `Nível: ${level}`;
+                }, timeouts[level - 1]);
+            }, randomTime);
+        }
+
+        document.getElementById('reaction-btn').onclick = function() {
+            if (!this.disabled) {
+                level++;
+                nextLevel();
+            }
+        };
+
+        // Inicia o jogo
+        nextLevel();
+    </script>
 </body>
 </html>
