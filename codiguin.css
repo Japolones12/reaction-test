@@ -1,0 +1,23 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    text-align: center;
+}
+
+#reaction-btn {
+    padding: 15px 30px;
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+#message {
+    margin-top: 20px;
+    font-size: 18px;
+}
